@@ -20,47 +20,19 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore PromptsValut/PromptsValut.csproj
 
-      - name: Build project
-        run: dotnet build PromptsValut/PromptsValut.csproj -c Release --no-restore
-
-      - name: Publish Blazor WebAssembly project
-        run: dotnet publish PromptsValut/PromptsValut.csproj -c Release -o release --nologo --no-build
-
-      - name: Change base-tag in index.html from / to PromptsValut
-        run: sed -i 's|<base href="/" />|<base href="/PromptsValut/" />|g' release/wwwroot/index.html
-
-      - name: Update Blazor script references to use hashed files
+      - name: Build and publish Blazor WebAssembly project
         run: |
-          # Find the actual blazor.webassembly file with hash
-          BLAZOR_FILE=$(find release/wwwroot/_framework -name "blazor.webassembly.*.js" | head -1)
-          BLAZOR_FILENAME=$(basename "$BLAZOR_FILE")
+          dotnet publish PromptsValut/PromptsValut.csproj -c Release -o release --nologo -p:BlazorWebAssemblyStandalone=true -p:BlazorEnableCompression=false
+
+      - name: Update base href for GitHub Pages
+        run: |
+          # Update base href to match repository name
+          sed -i 's|<base href="/" />|<base href="/PromptsValut/" />|g' release/wwwroot/index.html
           
-          # Find other runtime files
-          DOTNET_RUNTIME_FILE=$(find release/wwwroot/_framework -name "dotnet.runtime.*.js" | head -1)
-          DOTNET_RUNTIME_FILENAME=$(basename "$DOTNET_RUNTIME_FILE")
+          # Update all _framework references to include the base path
+          sed -i 's|href="_framework/|href="/PromptsValut/_framework/|g' release/wwwroot/index.html
+          sed -i 's|src="_framework/|src="/PromptsValut/_framework/|g' release/wwwroot/index.html
           
-          DOTNET_NATIVE_FILE=$(find release/wwwroot/_framework -name "dotnet.native.*.js" | head -1)
-          DOTNET_NATIVE_FILENAME=$(basename "$DOTNET_NATIVE_FILE")
-          
-          DOTNET_FILE=$(find release/wwwroot/_framework -name "dotnet.js" | head -1)
-          DOTNET_FILENAME=$(basename "$DOTNET_FILE")
-          
-          echo "Found files:"
-          echo "Blazor: $BLAZOR_FILENAME"
-          echo "Runtime: $DOTNET_RUNTIME_FILENAME"
-          echo "Native: $DOTNET_NATIVE_FILENAME"
-          echo "Dotnet: $DOTNET_FILENAME"
-          
-          # Update the script reference in index.html
-          sed -i "s|_framework/blazor.webassembly.js|_framework/$BLAZOR_FILENAME|g" release/wwwroot/index.html
-          
-          # Update preload links for all runtime files
-          sed -i "s|_framework/blazor.webassembly.js|_framework/$BLAZOR_FILENAME|g" release/wwwroot/index.html
-          sed -i "s|_framework/dotnet.runtime.js|_framework/$DOTNET_RUNTIME_FILENAME|g" release/wwwroot/index.html
-          sed -i "s|_framework/dotnet.native.js|_framework/$DOTNET_NATIVE_FILENAME|g" release/wwwroot/index.html
-          sed -i "s|_framework/dotnet.js|_framework/$DOTNET_FILENAME|g" release/wwwroot/index.html
-          
-          # Verify the changes
           echo "Updated index.html:"
           grep -n "_framework/" release/wwwroot/index.html
 
