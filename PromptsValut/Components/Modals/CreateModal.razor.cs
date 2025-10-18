@@ -55,7 +55,7 @@ public partial class CreateModal : ComponentBase
         }
         else
         {
-            newPrompt.Tags = Array.Empty<string>();
+            newPrompt.Tags = [];
         }
 
         await PromptService.AddPromptAsync(newPrompt);

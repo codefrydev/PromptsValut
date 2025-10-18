@@ -70,7 +70,7 @@ public partial class PromptGenerator : ComponentBase, IDisposable
             EstimatedTime = "5-10 minutes",
             Author = "Prompt Generator",
             UsageNotes = "Replace [task description] with your specific task description.",
-            Placeholders = new[] { "task description" }
+            Placeholders = ["task description"]
         };
         
     }

@@ -21,6 +21,6 @@ public class PlaceholderField
 
 public class ParsedPlaceholders
 {
-    public List<PlaceholderField> Fields { get; set; } = new();
+    public List<PlaceholderField> Fields { get; set; } = [];
     public string ProcessedContent { get; set; } = string.Empty;
 }

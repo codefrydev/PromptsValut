@@ -15,7 +15,7 @@ public partial class FavoritesModal : ComponentBase, IDisposable
     [Inject] private IPromptService PromptService { get; set; } = default!;
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
-    private List<Prompt> favoritePrompts = new();
+    private List<Prompt> favoritePrompts = [];
 
     protected override async Task OnInitializedAsync()
     {

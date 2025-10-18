@@ -313,16 +313,13 @@ public class PromptService : IPromptService
         try
         {
             var isValid = IsValidAppState(_state);
-            if (!isValid)
-            {
-                Console.WriteLine("PromptService: Invalid state detected, repairing...");
-                _state = new AppState();
-                await SaveStateToStorageAsync();
-                await LoadDefaultDataAsync();
-                NotifyStateChanged();
-                return false;
-            }
-            return true;
+            if (isValid) return true;
+            Console.WriteLine("PromptService: Invalid state detected, repairing...");
+            _state = new AppState();
+            await SaveStateToStorageAsync();
+            await LoadDefaultDataAsync();
+            NotifyStateChanged();
+            return false;
         }
         catch (Exception ex)
         {
@@ -370,16 +367,15 @@ public class PromptService : IPromptService
         }
     }
 
-    private bool IsValidAppState(AppState state)
+    private bool IsValidAppState(AppState? state)
     {
         if (state == null) return false;
         
         // Basic validation
-        if (state.Prompts == null) state.Prompts = new List<Prompt>();
-        if (state.Categories == null) state.Categories = new List<Category>();
-        if (state.Favorites == null) state.Favorites = new List<string>();
-        if (state.UserRatings == null) state.UserRatings = new Dictionary<string, UserRating>();
-        if (state.History == null) state.History = new List<string>();
+        state.Prompts ??= [];
+        state.Categories ??= [];
+        state.Favorites ??= [];
+        state.History ??= [];
         
         return true;
     }
@@ -387,13 +383,13 @@ public class PromptService : IPromptService
     private async Task LoadDefaultDataAsync()
     {
         // Always load categories from external source
-        if (!_state.Categories.Any())
+        if (_state.Categories.Count == 0)
         {
             await LoadExternalCategoriesAsync();
         }
 
         // Then load prompts strictly from category file paths (no fallback)
-        if (!_state.Prompts.Any())
+        if (_state.Prompts.Count == 0)
         {
             await LoadPromptsFromCategoryFilesAsync();
         }
@@ -444,7 +440,7 @@ public class PromptService : IPromptService
         return false;
     }
 
-    private Task<List<Prompt>?> ParseExternalDataAsync(string jsonContent)
+    private static Task<List<Prompt>?> ParseExternalDataAsync(string jsonContent)
     {
         try
         {
@@ -507,15 +503,13 @@ public class PromptService : IPromptService
                     {
                         PropertyNameCaseInsensitive = true
                     });
-                    
-                    if (prompt != null)
-                    {
-                        // If the prompt doesn't have a title, use the property name
-                        if (string.IsNullOrEmpty(prompt.Title))
-                            prompt.Title = property.Name;
+
+                    if (prompt == null) continue;
+                    // If the prompt doesn't have a title, use the property name
+                    if (string.IsNullOrEmpty(prompt.Title))
+                        prompt.Title = property.Name;
                         
-                        prompts.Add(prompt);
-                    }
+                    prompts.Add(prompt);
                 }
                 catch { }
             }
@@ -531,23 +525,23 @@ public class PromptService : IPromptService
     private void UpdateCategoryCounts()
     {
             foreach (var category in _state.Categories)
-        {
-            if (category.Id == "all")
             {
-                category.PromptCount = _state.Prompts.Count;
-            }
-            else
-            {
+                if (category.Id == "all")
+                {
+                    category.PromptCount = _state.Prompts.Count;
+                }
+                else
+                {
                     category.PromptCount = _state.Prompts.Count(p => !string.IsNullOrEmpty(p.Category) && p.Category == category.Id);
+                }
             }
-        }
     }
 
     private async Task<bool> LoadPromptsFromCategoryFilesAsync()
     {
         try
         {
-            if (_state.Categories == null || _state.Categories.Count == 0)
+            if (_state.Categories.Count == 0)
             {
                 return false;
             }
@@ -576,7 +570,7 @@ public class PromptService : IPromptService
                     }
 
                     var json = await response.Content.ReadAsStringAsync();
-                    var prompts = await ParseExternalDataAsync(json) ?? new List<Prompt>();
+                    var prompts = await ParseExternalDataAsync(json) ?? [];
 
                     foreach (var prompt in prompts)
                     {
@@ -600,14 +594,11 @@ public class PromptService : IPromptService
                 }
             }
 
-            if (aggregated.Count > 0)
-            {
-                _state.Prompts.AddRange(aggregated);
-                UpdateCategoryCounts();
-                return true;
-            }
+            if (aggregated.Count <= 0) return false;
+            _state.Prompts.AddRange(aggregated);
+            UpdateCategoryCounts();
+            return true;
 
-            return false;
         }
         catch (Exception ex)
         {
@@ -633,7 +624,7 @@ public class PromptService : IPromptService
                     var categories = JsonSerializer.Deserialize<List<Category>>(categoriesElement.GetRawText(), new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
-                    }) ?? new List<Category>();
+                    }) ?? [];
 
                     foreach (var category in categories)
                     {
@@ -645,13 +636,11 @@ public class PromptService : IPromptService
                             category.Id = slug;
                         }
 
-                        if (!string.IsNullOrWhiteSpace(category.FilePathName))
+                        if (string.IsNullOrWhiteSpace(category.FilePathName)) continue;
+                        if (!category.FilePathName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                            !category.FilePathName.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                         {
-                            if (!category.FilePathName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
-                                !category.FilePathName.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                            {
-                                category.FilePathName = EXTERNAL_BASE_PATH + category.FilePathName.TrimStart('/');
-                            }
+                            category.FilePathName = EXTERNAL_BASE_PATH + category.FilePathName.TrimStart('/');
                         }
                     }
 
@@ -742,12 +731,6 @@ public class PromptService : IPromptService
     {
         try
         {
-            if (_state.CacheMetadata == null)
-            {
-                _state.CacheMetadata = new CacheMetadata();
-                return true; // No cache metadata means stale
-            }
-
             var cacheMetadata = _state.CacheMetadata;
             
             // If never refreshed, consider stale
@@ -779,7 +762,7 @@ public class PromptService : IPromptService
     {
         try
         {
-            if (_state.CacheMetadata == null || _state.CacheMetadata.LastBackgroundRefresh == DateTime.MinValue)
+            if (_state.CacheMetadata.LastBackgroundRefresh == DateTime.MinValue)
                 return TimeSpan.Zero;
 
             var timeSinceLastRefresh = DateTime.UtcNow - _state.CacheMetadata.LastBackgroundRefresh;
