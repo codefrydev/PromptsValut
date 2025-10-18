@@ -103,12 +103,6 @@ public partial class PromptDetailModal : ComponentBase
         }
     }
 
-    private async Task RatePrompt()
-    {
-        // TODO: Implement rating modal
-        await Task.CompletedTask;
-    }
-
     private void ResetCustomizeForm()
     {
         InitializeCustomizeValues();

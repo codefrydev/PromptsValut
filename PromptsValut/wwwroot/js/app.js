@@ -42,20 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.setTheme(savedTheme);
 });
 
-// File download utility
-window.downloadFile = (filename, content) => {
-    const blob = new Blob([content], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-};
-
-
 // Toast notification system
 window.showToast = (message, type = 'info') => {
     // Simple toast implementation - can be enhanced with a proper toast library
@@ -161,42 +147,3 @@ window.removeResizeListener = (dotNetObjectRef) => {
     }
 };
 
-// Local storage debugging utilities
-window.debugLocalStorage = () => {
-    try {
-        const keys = Object.keys(localStorage);
-        console.log('Local Storage Contents:');
-        keys.forEach(key => {
-            const value = localStorage.getItem(key);
-            console.log(`${key}:`, value);
-        });
-        return keys;
-    } catch (error) {
-        console.error('Error accessing localStorage:', error);
-        return [];
-    }
-};
-
-window.clearLocalStorage = () => {
-    try {
-        localStorage.clear();
-        console.log('Local storage cleared');
-        return true;
-    } catch (error) {
-        console.error('Error clearing localStorage:', error);
-        return false;
-    }
-};
-
-// Check if localStorage is available
-window.isLocalStorageAvailable = () => {
-    try {
-        const test = '__localStorage_test__';
-        localStorage.setItem(test, test);
-        localStorage.removeItem(test);
-        return true;
-    } catch (error) {
-        console.error('localStorage is not available:', error);
-        return false;
-    }
-};

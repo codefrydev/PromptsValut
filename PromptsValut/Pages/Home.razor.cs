@@ -16,11 +16,9 @@ public partial class Home : ComponentBase
     private HelpModal? helpModal;
     private FavoritesModal? favoritesModal;
     private CreateModal? createModal;
-    private ExportImportModal? exportImportModal;
     
     private bool showPromptDetail = false;
     private bool showCreateModal = false;
-    private bool showExportImportModal = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -69,20 +67,9 @@ public partial class Home : ComponentBase
         await PromptService.ShowFavoritesModalAsync();
     }
 
-    private void ShowHistory()
-    {
-        // Show history view - could implement a history modal similar to favorites
-    }
-
     private void ShowCreateModal()
     {
         showCreateModal = true;
-        StateHasChanged();
-    }
-
-    private void ShowExportImportModal()
-    {
-        showExportImportModal = true;
         StateHasChanged();
     }
 
@@ -105,12 +92,6 @@ public partial class Home : ComponentBase
     private void CloseCreateModal()
     {
         showCreateModal = false;
-        StateHasChanged();
-    }
-
-    private void CloseExportImportModal()
-    {
-        showExportImportModal = false;
         StateHasChanged();
     }
 }

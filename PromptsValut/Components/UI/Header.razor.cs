@@ -15,7 +15,6 @@ public partial class Header : ComponentBase
     [Inject] private IPromptService PromptService { get; set; } = default!;
     [Inject] private IBackgroundRefreshService BackgroundRefreshService { get; set; } = default!;
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
-    [Inject] private NavigationManager Navigation { get; set; } = default!;
 
     private async Task ToggleSidebar()
     {
@@ -34,13 +33,13 @@ public partial class Header : ComponentBase
 
     private async Task NavigateToHome()
     {
-        Navigation.NavigateTo("");
+        // Navigation handled by parent component
         await Task.CompletedTask;
     }
 
     private async Task NavigateToGenerator()
     {
-        Navigation.NavigateTo("generator");
+        // Navigation handled by parent component
         await Task.CompletedTask;
     }
 

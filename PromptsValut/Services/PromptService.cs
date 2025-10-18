@@ -225,42 +225,6 @@ public class PromptService : IPromptService
         NotifyStateChanged();
     }
 
-    public async Task ExportDataAsync()
-    {
-        var exportData = new ExportData
-        {
-            Prompts = _state.Prompts,
-            Favorites = _state.Favorites,
-            UserRatings = _state.UserRatings,
-            History = _state.History
-        };
-
-        var json = JsonSerializer.Serialize(exportData, new JsonSerializerOptions { WriteIndented = true });
-        await _jsRuntime.InvokeVoidAsync("downloadFile", "promptvault-export.json", json);
-    }
-
-    public async Task ImportDataAsync(string jsonData)
-    {
-        try
-        {
-            var importData = JsonSerializer.Deserialize<ExportData>(jsonData);
-            if (importData != null)
-            {
-                _state.Prompts = importData.Prompts ?? new List<Prompt>();
-                _state.Favorites = importData.Favorites ?? new List<string>();
-                _state.UserRatings = importData.UserRatings ?? new Dictionary<string, UserRating>();
-                _state.History = importData.History ?? new List<string>();
-                
-                await SaveStateToStorageAsync();
-                NotifyStateChanged();
-            }
-        }
-        catch
-        {
-            // Handle import error
-        }
-    }
-
     public async Task ClearDataAsync()
     {
         _state.Prompts.Clear();

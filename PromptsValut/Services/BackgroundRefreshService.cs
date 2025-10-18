@@ -67,8 +67,6 @@ public class BackgroundRefreshService : IBackgroundRefreshService
             
             _isRunning = true;
             _refreshTimer = new Timer(OnTimerElapsed, null, TimeSpan.Zero, TimeSpan.FromMinutes(_refreshIntervalMinutes));
-            
-            Console.WriteLine($"BackgroundRefreshService: Started with {_refreshIntervalMinutes} minute interval");
         }
         catch (Exception ex)
         {
@@ -88,7 +86,6 @@ public class BackgroundRefreshService : IBackgroundRefreshService
             _refreshTimer = null;
             _isRunning = false;
             
-            Console.WriteLine("BackgroundRefreshService: Stopped");
             await Task.CompletedTask;
         }
         catch (Exception ex)
@@ -105,13 +102,10 @@ public class BackgroundRefreshService : IBackgroundRefreshService
         await _refreshSemaphore.WaitAsync();
         try
         {
-            Console.WriteLine("BackgroundRefreshService: Starting background refresh...");
-            
             // Check if we need to refresh based on cache metadata
             var shouldRefresh = await ShouldRefreshAsync();
             if (!shouldRefresh)
             {
-                Console.WriteLine("BackgroundRefreshService: Skipping refresh - data is still fresh");
                 return;
             }
 
@@ -123,14 +117,11 @@ public class BackgroundRefreshService : IBackgroundRefreshService
             
             _lastRefresh = DateTime.UtcNow;
             
-            Console.WriteLine("BackgroundRefreshService: Background refresh completed successfully");
-            
             // Show a subtle notification to the user
             await _jsRuntime.InvokeVoidAsync("showToast", "Data updated in background", "success");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"BackgroundRefreshService: Error during refresh: {ex.Message}");
             // Don't show error toast for background failures to avoid annoying users
         }
         finally
@@ -147,7 +138,7 @@ public class BackgroundRefreshService : IBackgroundRefreshService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"BackgroundRefreshService: Timer callback error: {ex.Message}");
+            // Timer callback error - ignore silently
         }
     }
 
@@ -173,7 +164,6 @@ public class BackgroundRefreshService : IBackgroundRefreshService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"BackgroundRefreshService: Error checking refresh need: {ex.Message}");
             return true; // Default to refresh on error
         }
     }
@@ -196,7 +186,7 @@ public class BackgroundRefreshService : IBackgroundRefreshService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"BackgroundRefreshService: Error updating cache metadata: {ex.Message}");
+            // Error updating cache metadata - ignore silently
         }
     }
 
@@ -214,7 +204,7 @@ public class BackgroundRefreshService : IBackgroundRefreshService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"BackgroundRefreshService: Error loading settings: {ex.Message}");
+            // Error loading settings - ignore silently
         }
     }
 

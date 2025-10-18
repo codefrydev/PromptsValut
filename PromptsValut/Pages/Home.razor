@@ -13,17 +13,9 @@
                         @((MarkupString)SvgIcons.GetIcon("heart", "h-4 w-4"))
                         <span class="hidden sm:inline">Favorites (@PromptService.State.Favorites.Count)</span>
                     </button>
-                    <button @onclick="ShowHistory" class="btn-secondary h-10 px-4 rounded-lg border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 hover:from-purple-100 hover:to-indigo-100 hover:border-purple-300 text-purple-700 hover:text-purple-800 dark:from-purple-900/20 dark:to-indigo-900/20 dark:hover:from-purple-800/30 dark:hover:to-indigo-800/30 dark:border-purple-800 dark:hover:border-purple-700 dark:text-purple-300 dark:hover:text-purple-200 flex items-center gap-2 flex-1 sm:flex-none justify-center sm:justify-start hover-lift">
-                        @((MarkupString)SvgIcons.GetIcon("history", "h-4 w-4"))
-                        <span class="hidden sm:inline">History</span>
-                    </button>
                     <button @onclick="ShowCreateModal" class="btn-primary h-10 px-4 rounded-lg border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 hover:border-green-300 text-green-700 hover:text-green-800 dark:from-green-900/20 dark:to-emerald-900/20 dark:hover:from-green-800/30 dark:hover:to-emerald-800/30 dark:border-green-800 dark:hover:border-green-700 dark:text-green-300 dark:hover:text-green-200 flex items-center gap-2 flex-1 sm:flex-none justify-center sm:justify-start hover-lift">
                         @((MarkupString)SvgIcons.GetIcon("plus", "h-4 w-4"))
                         <span class="hidden sm:inline">Create</span>
-                    </button>
-                    <button @onclick="ShowExportImportModal" class="h-10 px-4 rounded-lg border border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50 hover:from-orange-100 hover:to-yellow-100 hover:border-orange-300 text-orange-700 hover:text-orange-800 dark:from-orange-900/20 dark:to-yellow-900/20 dark:hover:from-orange-800/30 dark:hover:to-yellow-800/30 dark:border-orange-800 dark:hover:border-orange-700 dark:text-orange-300 dark:hover:text-orange-200 flex items-center gap-2 flex-1 sm:flex-none justify-center sm:justify-start">
-                        @((MarkupString)SvgIcons.GetIcon("download", "h-4 w-4"))
-                        <span class="hidden sm:inline">Export/Import</span>
                     </button>
                 </div>
             </div>
@@ -81,17 +73,9 @@
                     <span class="text-xs font-medium">Favorites</span>
                     <span class="text-xs bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 px-1.5 py-0.5 rounded-full">@PromptService.State.Favorites.Count</span>
                 </button>
-                <button @onclick="ShowHistory" class="h-11 px-3 rounded-lg border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 hover:from-purple-100 hover:to-indigo-100 hover:border-purple-300 text-purple-700 hover:text-purple-800 dark:from-purple-900/20 dark:to-indigo-900/20 dark:hover:from-purple-800/30 dark:hover:to-indigo-800/30 dark:border-purple-800 dark:hover:border-purple-700 dark:text-purple-300 dark:hover:text-purple-200 flex items-center justify-center gap-1.5 transition-all duration-200">
-                    @((MarkupString)SvgIcons.GetIcon("history", "h-4 w-4"))
-                    <span class="text-xs font-medium">History</span>
-                </button>
                 <button @onclick="ShowCreateModal" class="h-11 px-3 rounded-lg border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 hover:border-green-300 text-green-700 hover:text-green-800 dark:from-green-900/20 dark:to-emerald-900/20 dark:hover:from-green-800/30 dark:hover:to-emerald-800/30 dark:border-green-800 dark:hover:border-green-700 dark:text-green-300 dark:hover:text-green-200 flex items-center justify-center gap-1.5 transition-all duration-200">
                     @((MarkupString)SvgIcons.GetIcon("plus", "h-4 w-4"))
                     <span class="text-xs font-medium">Create</span>
-                </button>
-                <button @onclick="ShowExportImportModal" class="h-11 px-3 rounded-lg border border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50 hover:from-orange-100 hover:to-yellow-100 hover:border-orange-300 text-orange-700 hover:text-orange-800 dark:from-orange-900/20 dark:to-yellow-900/20 dark:hover:from-orange-800/30 dark:hover:to-yellow-800/30 dark:border-orange-800 dark:hover:border-orange-700 dark:text-orange-300 dark:hover:text-orange-200 flex items-center justify-center gap-1.5 transition-all duration-200">
-                    @((MarkupString)SvgIcons.GetIcon("download", "h-4 w-4"))
-                    <span class="text-xs font-medium">Export</span>
                 </button>
             </div>
         </div>
@@ -142,4 +126,3 @@
 <HelpModal @ref="helpModal" IsVisible="PromptService.ShowHelpModal" OnClose="CloseHelpModal" />
 <FavoritesModal @ref="favoritesModal" IsVisible="PromptService.ShowFavoritesModal" OnClose="CloseFavoritesModal" OnViewPrompt="OnPromptClick" />
 <CreateModal @ref="createModal" IsVisible="showCreateModal" OnClose="CloseCreateModal" />
-<ExportImportModal @ref="exportImportModal" IsVisible="showExportImportModal" OnClose="CloseExportImportModal" />

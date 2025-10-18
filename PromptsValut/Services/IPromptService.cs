@@ -27,8 +27,6 @@ public interface IPromptService
     Task SetShowFavoritesOnlyAsync(bool showFavoritesOnly);
     Task SetThemeAsync(string theme);
     Task ToggleThemeAsync();
-    Task ExportDataAsync();
-    Task ImportDataAsync(string jsonData);
     Task ClearDataAsync();
     Task AddToHistoryAsync(string promptId);
     Task<List<Prompt>> GetFavoritesAsync();
@@ -38,8 +36,6 @@ public interface IPromptService
     Task ShowFavoritesModalAsync();
     Task HideFavoritesModalAsync();
     Task RefreshExternalDataAsync();
-    Task ResetToDefaultStateAsync();
-    Task<bool> ValidateAndRepairStateAsync();
     Task<bool> IsDataFreshAsync();
     Task<TimeSpan> GetTimeUntilNextRefreshAsync();
     Task SetRefreshIntervalAsync(int minutes);

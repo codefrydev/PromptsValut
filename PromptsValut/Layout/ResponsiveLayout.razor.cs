@@ -69,7 +69,11 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
             }
         }
     }
-
+    private async Task NavigateToGenerator()
+    {
+        Navigation.NavigateTo("generator");
+        await Task.CompletedTask;
+    }
     private void ToggleSidebar()
     {
         sidebarOpen = !sidebarOpen;
@@ -118,37 +122,10 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
         }
     }
 
-    private async Task ShowHistory()
-    {
-        // This would show history - you might need to implement this in PromptService
-        if (isMobile)
-        {
-            sidebarOpen = false;
-            StateHasChanged();
-        }
-        await Task.CompletedTask;
-    }
-
     private async Task ShowAllPrompts()
     {
         await PromptService.SetShowFavoritesOnlyAsync(false);
         await PromptService.SetSelectedCategoryAsync("all");
-    }
-
-    private async Task NavigateToGenerator()
-    {
-        Navigation.NavigateTo("generator");
-        await Task.CompletedTask;
-    }
-
-    private void ShowSearch()
-    {
-        // Focus on search input - you might need to implement this
-        if (isMobile)
-        {
-            sidebarOpen = false;
-            StateHasChanged();
-        }
     }
 
     public void Dispose()

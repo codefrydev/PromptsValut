@@ -1,6 +1,7 @@
 # PromptVault 🗃️
 
-A modern, responsive Blazor WebAssembly application
+A modern, responsive Blazor WebAssembly application for managing AI prompts.
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
@@ -10,7 +11,6 @@ A modern, responsive Blazor WebAssembly application
 - **Favorites System**: Mark prompts as favorites for quick access
 - **Rating System**: Rate prompts and view average ratings
 - **Usage History**: Track recently used prompts
-- **Export/Import**: Backup and restore your prompt library
 
 ### 🎨 User Experience
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
@@ -70,7 +70,7 @@ dotnet watch run
 ```
 PromptsValut/
 ├── Components/           # Reusable UI components
-│   ├── Modals/          # Modal dialogs (Create, Export/Import, etc.)
+│   ├── Modals/          # Modal dialogs (Create, Help, Favorites, etc.)
 │   └── UI/              # UI components (Cards, Filters, etc.)
 ├── Constants/           # Application constants (SVG icons)
 ├── Layout/             # Layout components
@@ -104,8 +104,6 @@ PromptsValut/
 - **View Details**: Click on any prompt card to view full details
 
 ### Data Management
-- **Export**: Download your prompt library as JSON
-- **Import**: Upload previously exported data
 - **History**: View recently used prompts
 - **Favorites**: Access your favorite prompts quickly
 
