@@ -6,6 +6,7 @@ A modern, responsive Blazor WebAssembly application for managing AI prompts.
 
 ### 🎯 Core Functionality
 - **Prompt Management**: Create, edit, delete, and organize AI prompts
+- **Prompt Generator**: Advanced tool for creating and customizing prompts with templates
 - **Categorization**: Organize prompts into categories (Marketing, Development, Creative Writing, Business, etc.)
 - **Search & Filter**: Powerful search across titles, content, descriptions, and tags
 - **Favorites System**: Mark prompts as favorites for quick access

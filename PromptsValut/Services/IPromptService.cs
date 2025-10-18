@@ -38,6 +38,4 @@ public interface IPromptService
     Task RefreshExternalDataAsync();
     Task<bool> IsDataFreshAsync();
     Task<TimeSpan> GetTimeUntilNextRefreshAsync();
-    Task SetRefreshIntervalAsync(int minutes);
-    Task EnableBackgroundRefreshAsync(bool enabled);
 }

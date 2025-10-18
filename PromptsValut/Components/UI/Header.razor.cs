@@ -58,21 +58,6 @@ public partial class Header : ComponentBase
         await PromptService.RefreshExternalDataAsync();
     }
 
-    private async Task ToggleBackgroundRefresh()
-    {
-        var isEnabled = BackgroundRefreshService.IsEnabled;
-        await PromptService.EnableBackgroundRefreshAsync(!isEnabled);
-        
-        if (!isEnabled)
-        {
-            await BackgroundRefreshService.StartAsync();
-        }
-        else
-        {
-            await BackgroundRefreshService.StopAsync();
-        }
-    }
-
     private string GetCacheStatusText()
     {
         var isFresh = PromptService.IsDataFreshAsync().Result;

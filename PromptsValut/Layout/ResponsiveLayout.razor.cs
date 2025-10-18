@@ -74,6 +74,12 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
         Navigation.NavigateTo("generator");
         await Task.CompletedTask;
     }
+
+    private async Task NavigateToHome()
+    {
+        Navigation.NavigateTo("");
+        await Task.CompletedTask;
+    }
     private void ToggleSidebar()
     {
         sidebarOpen = !sidebarOpen;

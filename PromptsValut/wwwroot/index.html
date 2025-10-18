@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PromptVault - AI Prompt Library</title>
     <base href="/" />
-    <link rel="preload" id="webassembly" />
+    <link rel="preload" href="_framework/blazor.webassembly.js" as="script" crossorigin="anonymous" />
+    <link rel="preload" href="_framework/dotnet.runtime.js" as="script" crossorigin="anonymous" />
+    <link rel="preload" href="_framework/dotnet.native.js" as="script" crossorigin="anonymous" />
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -60,6 +62,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
     
     <!-- Custom JavaScript -->
@@ -139,6 +142,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        
+        .logo-image {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
         }
         
         .logo-ring {
@@ -357,6 +367,11 @@
                 font-size: 1.5rem;
             }
             
+            .logo-image {
+                width: 40px;
+                height: 40px;
+            }
+            
             .logo-ring {
                 width: 120px;
                 height: 120px;
@@ -393,7 +408,7 @@
                     <div class="logo-container">
                         <div class="logo-circle">
                             <div class="logo-inner">
-                                <div class="logo-text">PV</div>
+                                <img src="favicon-32x32.png" alt="PromptVault" class="logo-image" />
                             </div>
                         </div>
                         <div class="logo-ring"></div>

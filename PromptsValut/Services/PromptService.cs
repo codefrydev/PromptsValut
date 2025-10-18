@@ -794,26 +794,6 @@ public class PromptService : IPromptService
         }
     }
 
-    public async Task SetRefreshIntervalAsync(int minutes)
-    {
-        if (_state.CacheMetadata == null)
-            _state.CacheMetadata = new CacheMetadata();
-            
-        _state.CacheMetadata.RefreshIntervalMinutes = Math.Max(1, minutes);
-        await SaveStateToStorageAsync();
-        NotifyStateChanged();
-    }
-
-    public async Task EnableBackgroundRefreshAsync(bool enabled)
-    {
-        if (_state.CacheMetadata == null)
-            _state.CacheMetadata = new CacheMetadata();
-            
-        _state.CacheMetadata.BackgroundRefreshEnabled = enabled;
-        await SaveStateToStorageAsync();
-        NotifyStateChanged();
-    }
-
     private void NotifyStateChanged()
     {
         StateChanged?.Invoke();
