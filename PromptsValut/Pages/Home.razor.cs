@@ -10,6 +10,7 @@ namespace PromptsValut.Pages;
 public partial class Home : ComponentBase
 {
     [Inject] private IPromptService PromptService { get; set; } = default!;
+    [Inject] private ISeoService SeoService { get; set; } = default!;
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
     private PromptDetailModal? promptDetailModal;
@@ -24,6 +25,33 @@ public partial class Home : ComponentBase
     {
         await PromptService.InitializeAsync();
         PromptService.StateChanged += StateHasChanged;
+        
+        // Generate dynamic SEO content
+        await GenerateDynamicSeoContent();
+    }
+
+    private async Task GenerateDynamicSeoContent()
+    {
+        try
+        {
+            // Generate dynamic FAQ based on actual prompts
+            await SeoService.GenerateDynamicFaqAsync(PromptService.Prompts);
+            
+            // Generate dynamic JSON-LD based on actual data
+            await SeoService.GenerateDynamicJsonLdAsync(PromptService.Prompts, PromptService.Categories);
+            
+            // Track page view with dynamic data
+            await SeoService.TrackPageViewAsync("Home", new Dictionary<string, object>
+            {
+                ["total_prompts"] = PromptService.Prompts.Count,
+                ["total_categories"] = PromptService.Categories.Count,
+                ["favorites_count"] = PromptService.State.Favorites.Count
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error generating dynamic SEO content: {ex.Message}");
+        }
     }
 
     // SVG icons are inline - no initialization needed

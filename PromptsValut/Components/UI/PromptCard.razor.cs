@@ -14,6 +14,7 @@ public partial class PromptCard : ComponentBase, IDisposable
     [Parameter] public EventCallback<(string promptId, UserRating rating)> OnSetRating { get; set; }
 
     [Inject] private IPromptService PromptService { get; set; } = default!;
+    [Inject] private ISeoService SeoService { get; set; } = default!;
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
     private bool IsFavorite => PromptService.State.Favorites.Contains(Prompt.Id);
@@ -46,6 +47,18 @@ public partial class PromptCard : ComponentBase, IDisposable
 
     private async Task ViewPrompt()
     {
+        // Update SEO for this specific prompt
+        await SeoService.UpdateSeoForPromptAsync(Prompt);
+        
+        // Track prompt view
+        await SeoService.TrackPageViewAsync($"Prompt: {Prompt.Title}", new Dictionary<string, object>
+        {
+            ["prompt_id"] = Prompt.Id,
+            ["prompt_category"] = Prompt.Category,
+            ["prompt_rating"] = Prompt.AverageRating,
+            ["prompt_usage_count"] = Prompt.UsageCount
+        });
+        
         await OnPromptClick.InvokeAsync(Prompt.Id);
     }
 

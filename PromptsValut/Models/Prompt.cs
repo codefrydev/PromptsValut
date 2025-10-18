@@ -10,6 +10,7 @@ public class Prompt
     public string[] Tags { get; set; } = [];
     public int UsageCount { get; set; } = 0;
     public double AverageRating { get; set; } = 0.0;
+    public int RatingCount { get; set; } = 0;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public bool IsPublic { get; set; } = true;

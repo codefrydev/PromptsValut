@@ -13,6 +13,7 @@ builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
 builder.Services.AddScoped<IPromptService, PromptService>();
 builder.Services.AddScoped<IPlaceholderParserService, PlaceholderParserService>();
 builder.Services.AddScoped<IBackgroundRefreshService, BackgroundRefreshService>();
+builder.Services.AddScoped<ISeoService, SeoService>();
 builder.Services.AddHttpClient();
 
 await builder.Build().RunAsync();

@@ -1,0 +1,110 @@
+@using PromptsValut.Services
+@using PromptsValut.Models
+
+<div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+    <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">SEO Management</h3>
+    </div>
+    
+    <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button @onclick="GenerateDynamicSitemap" 
+                    class="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                </svg>
+                Generate Sitemap
+            </button>
+            
+            <button @onclick="RefreshSeoContent" 
+                    class="px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Refresh SEO Content
+            </button>
+        </div>
+        
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SEO Statistics</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                    <span class="text-gray-500 dark:text-gray-400">Total Prompts:</span>
+                    <span class="text-gray-900 dark:text-gray-100 ml-1 font-medium">@PromptService.Prompts.Count</span>
+                </div>
+                <div>
+                    <span class="text-gray-500 dark:text-gray-400">Categories:</span>
+                    <span class="text-gray-900 dark:text-gray-100 ml-1 font-medium">@PromptService.Categories.Count</span>
+                </div>
+                <div>
+                    <span class="text-gray-500 dark:text-gray-400">Avg Rating:</span>
+                    <span class="text-gray-900 dark:text-gray-100 ml-1 font-medium">@(PromptService.Prompts.Any() ? PromptService.Prompts.Average(p => p.AverageRating).ToString("F1") : "N/A")</span>
+                </div>
+                <div>
+                    <span class="text-gray-500 dark:text-gray-400">Total Uses:</span>
+                    <span class="text-gray-900 dark:text-gray-100 ml-1 font-medium">@PromptService.Prompts.Sum(p => p.UsageCount)</span>
+                </div>
+            </div>
+        </div>
+        
+        @if (!string.IsNullOrEmpty(statusMessage))
+        {
+            <div class="p-3 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-lg">
+                <p class="text-sm text-green-800 dark:text-green-200">@statusMessage</p>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Inject] private IPromptService PromptService { get; set; } = default!;
+    [Inject] private ISeoService SeoService { get; set; } = default!;
+    
+    private string statusMessage = string.Empty;
+    
+    private async Task GenerateDynamicSitemap()
+    {
+        try
+        {
+            await SeoService.GenerateDynamicSitemapAsync(PromptService.Prompts, PromptService.Categories);
+            statusMessage = "Dynamic sitemap generated successfully!";
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Error generating sitemap: {ex.Message}";
+        }
+        
+        StateHasChanged();
+        
+        // Clear message after 3 seconds
+        await Task.Delay(3000);
+        statusMessage = string.Empty;
+        StateHasChanged();
+    }
+    
+    private async Task RefreshSeoContent()
+    {
+        try
+        {
+            await SeoService.GenerateDynamicFaqAsync(PromptService.Prompts);
+            await SeoService.GenerateDynamicJsonLdAsync(PromptService.Prompts, PromptService.Categories);
+            statusMessage = "SEO content refreshed successfully!";
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Error refreshing SEO content: {ex.Message}";
+        }
+        
+        StateHasChanged();
+        
+        // Clear message after 3 seconds
+        await Task.Delay(3000);
+        statusMessage = string.Empty;
+        StateHasChanged();
+    }
+}

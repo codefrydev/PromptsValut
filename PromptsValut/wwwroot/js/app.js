@@ -161,3 +161,148 @@ window.removeResizeListener = (dotNetObjectRef) => {
     }
 };
 
+// SEO Management Functions
+window.updatePageTitle = (title) => {
+    document.title = title;
+    
+    // Update Open Graph title
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+        ogTitle.setAttribute('content', title);
+    }
+    
+    // Update Twitter title
+    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+    if (twitterTitle) {
+        twitterTitle.setAttribute('content', title);
+    }
+};
+
+window.updateMetaDescription = (description) => {
+    // Update meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.setAttribute('name', 'description');
+        document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', description);
+    
+    // Update Open Graph description
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) {
+        ogDesc.setAttribute('content', description);
+    }
+    
+    // Update Twitter description
+    const twitterDesc = document.querySelector('meta[property="twitter:description"]');
+    if (twitterDesc) {
+        twitterDesc.setAttribute('content', description);
+    }
+};
+
+window.updateCanonicalUrl = (url) => {
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', url);
+    
+    // Update Open Graph URL
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) {
+        ogUrl.setAttribute('content', url);
+    }
+    
+    // Update Twitter URL
+    const twitterUrl = document.querySelector('meta[property="twitter:url"]');
+    if (twitterUrl) {
+        twitterUrl.setAttribute('content', url);
+    }
+};
+
+window.addJsonLd = (jsonData) => {
+    // Remove existing JSON-LD scripts with the same type
+    const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
+    existingScripts.forEach(script => {
+        if (script.dataset.dynamic === 'true') {
+            script.remove();
+        }
+    });
+    
+    // Add new JSON-LD script
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.dataset.dynamic = 'true';
+    script.textContent = jsonData;
+    document.head.appendChild(script);
+};
+
+window.trackPageView = (trackingData) => {
+    // Google Analytics tracking
+    if (typeof gtag !== 'undefined') {
+        gtag('config', 'G-VM01Q3R43D', {
+            page_title: trackingData.page_name,
+            page_location: trackingData.page_location,
+            custom_map: trackingData.custom_parameters
+        });
+        
+        gtag('event', 'page_view', {
+            page_title: trackingData.page_name,
+            page_location: trackingData.page_location,
+            ...trackingData.custom_parameters
+        });
+    }
+};
+
+// Performance optimization: Preload critical resources
+window.preloadCriticalResources = () => {
+    const criticalResources = [
+        '/css/app.css',
+        '/favicon-32x32.png',
+        '/icon-192.png'
+    ];
+    
+    criticalResources.forEach(resource => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = resource;
+        link.as = resource.endsWith('.css') ? 'style' : 'image';
+        document.head.appendChild(link);
+    });
+};
+
+// Dynamic Sitemap Generation
+window.generateDynamicSitemap = (sitemapData) => {
+    const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+${sitemapData.urls.map(url => `    <url>
+        <loc>${url.loc}</loc>
+        <lastmod>${url.lastmod}</lastmod>
+        <changefreq>${url.changefreq}</changefreq>
+        <priority>${url.priority}</priority>
+    </url>`).join('\n')}
+</urlset>`;
+
+    // Create and download the sitemap
+    const blob = new Blob([sitemapXml], { type: 'application/xml' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'sitemap.xml';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+};
+
+// Initialize performance optimizations
+document.addEventListener('DOMContentLoaded', () => {
+    window.preloadCriticalResources();
+});
+

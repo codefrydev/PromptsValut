@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using PromptsValut.Constants;
 using PromptsValut.Services;
+using PromptsValut.Models;
 
 namespace PromptsValut.Components.UI;
 
@@ -9,6 +10,7 @@ public partial class CategoryFilter : ComponentBase, IDisposable
     [Parameter] public EventCallback<string> OnCategoryChanged { get; set; }
 
     [Inject] private IPromptService PromptService { get; set; } = default!;
+    [Inject] private ISeoService SeoService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -18,6 +20,24 @@ public partial class CategoryFilter : ComponentBase, IDisposable
 
     private async Task SelectCategory(string categoryId)
     {
+        // Update SEO for category selection
+        if (categoryId != "all")
+        {
+            var category = PromptService.Categories.FirstOrDefault(c => c.Id == categoryId);
+            if (category != null)
+            {
+                await SeoService.UpdateSeoForCategoryAsync(category);
+                
+                // Track category selection
+                await SeoService.TrackPageViewAsync($"Category: {category.Name}", new Dictionary<string, object>
+                {
+                    ["category_id"] = category.Id,
+                    ["category_name"] = category.Name,
+                    ["prompts_in_category"] = GetCategoryCount(categoryId)
+                });
+            }
+        }
+        
         await OnCategoryChanged.InvokeAsync(categoryId);
     }
 
