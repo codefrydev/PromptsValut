@@ -437,6 +437,13 @@ public static class SvgIcons
                                   </svg>
                               """;
 
+    public const string QuestionMark = """
+                                      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                          </svg>
+                                      """;
+
     // Method to get icon with custom class
     public static string GetIcon(string iconName, string customClass = "")
     {
@@ -500,6 +507,7 @@ public static class SvgIcons
             "wand" => Wand.Replace("h-4 w-4", customClass),
             "shuffle" => Shuffle.Replace("h-4 w-4", customClass),
             "info" => Info.Replace("h-4 w-4", customClass),
+            "question-mark" => QuestionMark.Replace("h-4 w-4", customClass),
             _ => ""
         };
     }
