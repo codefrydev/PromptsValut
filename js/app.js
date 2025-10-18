@@ -78,6 +78,25 @@ window.copyToClipboard = async (text) => {
     }
 };
 
+// Download text file
+window.downloadTextFile = (fileName, content) => {
+    try {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        window.showToast('File downloaded successfully!', 'success');
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        window.showToast('Error downloading file', 'error');
+    }
+};
+
 
 
 // Close modal when clicking outside
