@@ -2,20 +2,29 @@
 
 <div class="prompt-card-enhanced group cursor-pointer stagger-item @GetCategoryGradientClasses(Prompt.Category)">
     <!-- Card Header with Title and Actions -->
-    <div class="flex items-start justify-between mb-3">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 line-clamp-1 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300 flex-1 pr-2">
-            @Prompt.Title
-        </h3>
+    <div class="flex items-start justify-between mb-4">
+        <div class="flex-1 pr-3">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 line-clamp-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300 mb-1">
+                @Prompt.Title
+            </h3>
+            @if (!string.IsNullOrEmpty(Prompt.Author))
+            {
+                <p class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                    @((MarkupString)SvgIcons.PenTool)
+                    <span>by @Prompt.Author</span>
+                </p>
+            }
+        </div>
         <div class="flex items-center gap-1">
             <button 
                 @onclick="() => ToggleFavorite()"
-                class="p-1 rounded-lg hover:bg-gray-200/50 dark:hover:bg-white/20 transition-colors duration-200 @(IsFavorite ? "text-red-600 dark:text-red-400" : "text-gray-600 dark:text-gray-300")"
+                class="p-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-white/20 transition-all duration-200 @(IsFavorite ? "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20" : "text-gray-600 dark:text-gray-300")"
                 title="@(IsFavorite ? "Remove from favorites" : "Add to favorites")">
                 @((MarkupString)SvgIcons.Heart)
             </button>
             <button 
                 @onclick="() => SetRating(5)"
-                class="p-1 rounded-lg hover:bg-gray-200/50 dark:hover:bg-white/20 transition-colors duration-200 text-gray-600 dark:text-gray-300"
+                class="p-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-white/20 transition-all duration-200 text-gray-600 dark:text-gray-300"
                 title="Rate this prompt">
                 @((MarkupString)SvgIcons.Star)
             </button>
@@ -23,59 +32,105 @@
     </div>
     
     <!-- Category and Difficulty Tags -->
-    <div class="flex items-center gap-2 mb-3">
-        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium @GetCategoryTagClasses(Prompt.Category)">
+    <div class="flex items-center gap-2 mb-4">
+        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium @GetCategoryTagClasses(Prompt.Category)">
             @GetCategoryName(Prompt.Category)
         </span>
         @if (!string.IsNullOrEmpty(Prompt.Difficulty))
         {
-            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium @GetDifficultyTagClasses(Prompt.Difficulty)">
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium @GetDifficultyTagClasses(Prompt.Difficulty)">
                 @Prompt.Difficulty
             </span>
         }
     </div>
     
-    <!-- Description in White Box -->
-    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-4 mb-3 shadow-lg">
-        <p class="text-sm text-gray-700 line-clamp-6 leading-relaxed">
+    <!-- Description in Enhanced White Box -->
+    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-4 mb-4 shadow-lg border border-gray-200/50 dark:border-gray-700/50">
+        <p class="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
             @Prompt.Description
         </p>
+    </div>
+    
+    <!-- Metadata Section -->
+    <div class="flex flex-wrap gap-4 mb-4">
+        <!-- Estimated Time -->
+        @if (!string.IsNullOrEmpty(Prompt.EstimatedTime))
+        {
+            <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                @((MarkupString)SvgIcons.Clock)
+                <span>@Prompt.EstimatedTime</span>
+            </div>
+        }
+        
+        <!-- Creation Date -->
+        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+            @((MarkupString)SvgIcons.Calendar)
+            <span>@Prompt.CreatedAt.ToString("MMM dd, yyyy")</span>
+        </div>
+        
+        <!-- Placeholders Count -->
+        @if (Prompt.Placeholders.Any())
+        {
+            <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                @((MarkupString)SvgIcons.Code)
+                <span>@Prompt.Placeholders.Length variables</span>
+            </div>
+        }
     </div>
     
     <!-- Hashtags -->
     @if (Prompt.Tags.Any())
     {
-        <div class="flex flex-wrap gap-1.5 mb-3">
-            @foreach (var tag in Prompt.Tags.Take(4))
+        <div class="flex flex-wrap gap-1.5 mb-4">
+            @foreach (var tag in Prompt.Tags.Take(5))
             {
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
                     #@tag
                 </span>
             }
-            @if (Prompt.Tags.Length > 4)
+            @if (Prompt.Tags.Length > 5)
             {
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
-                    +@(Prompt.Tags.Length - 4)
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                    +@(Prompt.Tags.Length - 5)
                 </span>
             }
         </div>
     }
     
-    <!-- Action Buttons -->
+    <!-- Usage Notes -->
+    @if (!string.IsNullOrEmpty(Prompt.UsageNotes))
+    {
+        <div class="bg-blue-50/80 dark:bg-blue-900/20 rounded-lg p-3 mb-4 border border-blue-200/50 dark:border-blue-800/50">
+            <div class="flex items-start gap-2">
+                @((MarkupString)SvgIcons.Info)
+                <p class="text-xs text-blue-700 dark:text-blue-300 leading-relaxed">
+                    @Prompt.UsageNotes
+                </p>
+            </div>
+        </div>
+    }
+    
+    <!-- Enhanced Action Buttons -->
     <div class="flex items-center gap-2 mt-auto">
         <button 
             @onclick="() => CopyPrompt()"
-            class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 shadow-lg hover:shadow-xl"
+            class="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
             title="Copy Prompt">
             @((MarkupString)SvgIcons.Copy)
             <span>Copy</span>
         </button>
         <button 
             @onclick="() => ViewPrompt()"
-            class="bg-gray-200/80 dark:bg-white/20 hover:bg-gray-300/80 dark:hover:bg-white/30 text-gray-800 dark:text-white font-medium py-2.5 px-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 backdrop-blur-sm"
+            class="bg-gray-200/80 dark:bg-white/20 hover:bg-gray-300/80 dark:hover:bg-white/30 text-gray-800 dark:text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm transform hover:scale-[1.02]"
             title="View details">
             @((MarkupString)SvgIcons.Eye)
             <span>View</span>
+        </button>
+        <button 
+            @onclick="() => DownloadPrompt()"
+            class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+            title="Download prompt">
+            @((MarkupString)SvgIcons.Download)
         </button>
     </div>
 </div>

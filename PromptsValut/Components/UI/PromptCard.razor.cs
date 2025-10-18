@@ -61,6 +61,15 @@ public partial class PromptCard : ComponentBase, IDisposable
         await OnSetRating.InvokeAsync((Prompt.Id, userRating));
     }
 
+    private async Task DownloadPrompt()
+    {
+        // Create a downloadable text file with the prompt content
+        var fileName = $"{Prompt.Title.Replace(" ", "_")}_prompt.txt";
+        var content = $"Title: {Prompt.Title}\n\nDescription: {Prompt.Description}\n\nContent:\n{Prompt.Content}\n\nCategory: {Prompt.Category}\nDifficulty: {Prompt.Difficulty}\nAuthor: {Prompt.Author}\nCreated: {Prompt.CreatedAt:yyyy-MM-dd}\nTags: {string.Join(", ", Prompt.Tags)}";
+        
+        await JSRuntime.InvokeVoidAsync("downloadTextFile", fileName, content);
+    }
+
     private string GetCategoryGradientClasses(string category)
     {
         return category switch

@@ -32,28 +32,31 @@
                 <!-- Tabs and Edit Button -->
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-                        <button @onclick="async () => await SetActiveTab(0)" class="flex items-center px-3 py-2 text-sm font-medium rounded-md @(activeTab == 0 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300")">
+                        <button @onclick="async () => await SetActiveTab(0)" class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md @(activeTab == 0 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300")">
                             @((MarkupString)SvgIcons.FileText)
                             Original Prompt
                         </button>
                         <button @onclick="async () => await SetActiveTab(1)" 
                                 disabled="@isEditingPrompt"
-                                class="flex items-center px-3 py-2 text-sm font-medium rounded-md @(isEditingPrompt ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : (activeTab == 1 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"))">
+                                class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md @(isEditingPrompt ? "text-gray-400 dark:text-gray-600 cursor-not-allowed" : (activeTab == 1 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"))">
                             @((MarkupString)SvgIcons.Settings)
                             Customize @(isEditingPrompt ? "(Disabled while editing)" : "")
                         </button>
                     </div>
-                    <button @onclick="async () => await ToggleEditMode()" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
-                        @if (isEditingPrompt)
-                        {
-                            @((MarkupString)SvgIcons.X)
-                        }
-                        else
-                        {
-                            @((MarkupString)SvgIcons.Edit)
-                        }
-                        @(isEditingPrompt ? "Cancel" : "Edit Prompt")
-                    </button>
+                    @if (activeTab == 0)
+                    {
+                        <button @onclick="async () => await ToggleEditMode()" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
+                            @if (isEditingPrompt)
+                            {
+                                @((MarkupString)SvgIcons.X)
+                            }
+                            else
+                            {
+                                @((MarkupString)SvgIcons.Edit)
+                            }
+                            @(isEditingPrompt ? "Cancel" : "Edit Prompt")
+                        </button>
+                    }
                 </div>
             </div>
 
@@ -79,11 +82,11 @@
                                 
                                 <!-- Copy buttons for edited prompt -->
                                 <div class="flex gap-3 mt-4">
-                                    <button @onclick="CopyEditedPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center">
+                                    <button @onclick="CopyEditedPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center gap-2">
                                         @((MarkupString)SvgIcons.Copy)
                                         Copy Edited Prompt
                                     </button>
-                                    <button @onclick="CopyOriginalPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center">
+                                    <button @onclick="CopyOriginalPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center gap-2">
                                         @((MarkupString)SvgIcons.Copy)
                                         Copy Original Prompt
                                     </button>
@@ -198,11 +201,11 @@
                                 </div>
 
                                 <div class="flex gap-3">
-                                    <button @onclick="CopyOriginalPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center">
+                                    <button @onclick="CopyOriginalPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center gap-2">
                                         @((MarkupString)SvgIcons.Copy)
                                         Copy Original Prompt
                                     </button>
-                                    <button @onclick="CopyGeneratedPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center">
+                                    <button @onclick="CopyGeneratedPrompt" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md flex items-center justify-center gap-2">
                                         @((MarkupString)SvgIcons.Copy)
                                         Copy Generated Prompt
                                     </button>
@@ -221,11 +224,11 @@
                     {
                         <!-- Edit Mode Actions -->
                         <div class="flex items-center justify-between">
-                            <button @onclick="CancelEdit" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <button @onclick="CancelEdit" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                                 @((MarkupString)SvgIcons.RefreshCw)
                                 Cancel
                             </button>
-                            <button @onclick="SavePrompt" class="px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md">
+                            <button @onclick="SavePrompt" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md">
                                 @((MarkupString)SvgIcons.Save)
                                 Save
                             </button>
@@ -235,16 +238,14 @@
                     {
                         <!-- Original Prompt Tab Actions -->
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <button @onclick="CopyContent" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    @((MarkupString)SvgIcons.Copy)
-                                    Copy Content
-                                </button>
-                                <button @onclick="ToggleFavorite" class="px-4 py-2 text-sm font-medium rounded-md border @(IsFavorite ? "border-red-200 bg-red-50 text-red-700 hover:bg-red-100 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300" : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600")">
-                                    @((MarkupString)SvgIcons.Heart)
-                                    @(IsFavorite ? "Remove from Favorites" : "Add to Favorites")
-                                </button>
-                            </div>
+                            <button @onclick="ToggleFavorite" class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border @(IsFavorite ? "border-red-200 bg-red-50 text-red-700 hover:bg-red-100 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300" : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600")">
+                                @((MarkupString)SvgIcons.Heart)
+                                @(IsFavorite ? "Remove from Favorites" : "Add to Favorites")
+                            </button>
+                            <button @onclick="CopyContent" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                                @((MarkupString)SvgIcons.Copy)
+                                Copy Content
+                            </button>
                         </div>
                     }
                 }
@@ -257,7 +258,7 @@
                         </button>
                         <button @onclick="GenerateCustomPrompt" 
                                 disabled="@(!IsFormValid())"
-                                class="px-6 py-2 text-sm font-medium text-white @(IsFormValid() ? "bg-purple-600 hover:bg-purple-700" : "bg-gray-400 cursor-not-allowed") rounded-md flex items-center">
+                                class="px-6 py-2 text-sm font-medium text-white @(IsFormValid() ? "bg-purple-600 hover:bg-purple-700" : "bg-gray-400 cursor-not-allowed") rounded-md flex items-center gap-2">
                             @((MarkupString)SvgIcons.Settings)
                             Generate Custom Prompt
                         </button>
