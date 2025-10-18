@@ -110,11 +110,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-// File input click helper
-window.clickFileInput = (elementRef) => {
-    elementRef.click();
-};
-
 // Screen size detection for responsive layout
 window.getWindowWidth = () => {
     return window.innerWidth;

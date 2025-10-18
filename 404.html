@@ -6,12 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PromptVault - AI Prompt Library</title>
     <base href="/PromptsValut/" />
-    <link href="_framework/blazor.webassembly.0o6sltz4v8.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-QPblb0B3n+m0u11HG4nhpAiOn39aNT2Jm/OQ+6wpU4s=" />
-<link href="_framework/dotnet.native.98v1chuo8c.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-p1ska6aoeHyBLfhCjNMQKR6Jm+Is1DOrHR1eLsY/1LI=" />
-<link href="_framework/dotnet.r6perkohwo.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-/f3wNOz/KSf8UMpoDsKmGi3Olnm1tJJCpPWa32KPaS8=" />
-<link href="_framework/dotnet.runtime.fn94ls2wwa.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-JbGaPjn+PC/jQhB3fqsJ8NF8MR3lOr+q49kJVeHNWhU=" />
-<link href="js/app.xnm3au48dk.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-fVcNcIvT8uFJIGBn5EiuBwh5L5BM6TO15n4HxS8T/LY=" />
-<link href="tailwind.config.gd2doikycf.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-RK3p/5qBKgMkEg3QfNKVMPvKMgdjEtFFEiqkV/13xuk=" />
+    <link rel="preload" href="_framework/blazor.webassembly.0o6sltz4v8.js" as="script" crossorigin="anonymous" />
+    <link rel="preload" href="_framework/dotnet.runtime.fn94ls2wwa.js" as="script" crossorigin="anonymous" />
+    <link rel="preload" href="_framework/dotnet.native.98v1chuo8c.js" as="script" crossorigin="anonymous" />
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -65,30 +62,13 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
     
     <!-- Custom JavaScript -->
     <script src="js/app.js"></script>
     
-    <script type="importmap">{
-  "imports": {
-    "./_framework/blazor.webassembly.0o6sltz4v8.js": "./_framework/blazor.webassembly.0o6sltz4v8.js",
-    "./_framework/dotnet.native.js": "./_framework/dotnet.native.98v1chuo8c.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.r6perkohwo.js",
-    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.fn94ls2wwa.js"
-  },
-  "scopes": {},
-  "integrity": {
-    "./_framework/blazor.webassembly.0o6sltz4v8.js": "sha256-QPblb0B3n+m0u11HG4nhpAiOn39aNT2Jm/OQ+6wpU4s=",
-    "./_framework/blazor.webassembly.0o6sltz4v8.js": "sha256-QPblb0B3n+m0u11HG4nhpAiOn39aNT2Jm/OQ+6wpU4s=",
-    "./_framework/dotnet.js": "sha256-/f3wNOz/KSf8UMpoDsKmGi3Olnm1tJJCpPWa32KPaS8=",
-    "./_framework/dotnet.native.98v1chuo8c.js": "sha256-p1ska6aoeHyBLfhCjNMQKR6Jm+Is1DOrHR1eLsY/1LI=",
-    "./_framework/dotnet.native.js": "sha256-p1ska6aoeHyBLfhCjNMQKR6Jm+Is1DOrHR1eLsY/1LI=",
-    "./_framework/dotnet.r6perkohwo.js": "sha256-/f3wNOz/KSf8UMpoDsKmGi3Olnm1tJJCpPWa32KPaS8=",
-    "./_framework/dotnet.runtime.fn94ls2wwa.js": "sha256-JbGaPjn+PC/jQhB3fqsJ8NF8MR3lOr+q49kJVeHNWhU=",
-    "./_framework/dotnet.runtime.js": "sha256-JbGaPjn+PC/jQhB3fqsJ8NF8MR3lOr+q49kJVeHNWhU="
-  }
-}</script>
+    <script type="importmap"></script>
     <style>
         /* Loading Container */
         .loading-container {
@@ -162,6 +142,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        
+        .logo-image {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
         }
         
         .logo-ring {
@@ -380,6 +367,11 @@
                 font-size: 1.5rem;
             }
             
+            .logo-image {
+                width: 40px;
+                height: 40px;
+            }
+            
             .logo-ring {
                 width: 120px;
                 height: 120px;
@@ -416,7 +408,7 @@
                     <div class="logo-container">
                         <div class="logo-circle">
                             <div class="logo-inner">
-                                <div class="logo-text">PV</div>
+                                <img src="favicon-32x32.png" alt="PromptVault" class="logo-image" />
                             </div>
                         </div>
                         <div class="logo-ring"></div>
