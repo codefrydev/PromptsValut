@@ -39,17 +39,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       }
     ],
     "coreAssembly": [],
-    "assembly": [],
-    "libraryInitializers": [
-      {
-        "name": "_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.99zm1jdh75.lib.module.js"
-      }
-    ],
-    "modulesAfterConfigLoaded": [
-      {
-        "name": "../_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.99zm1jdh75.lib.module.js"
-      }
-    ]
+    "assembly": []
   },
   "debugLevel": 0,
   "linkerEnabled": true,
