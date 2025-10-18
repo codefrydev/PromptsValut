@@ -42,10 +42,14 @@ jobs:
           DOTNET_NATIVE_FILE=$(find release/wwwroot/_framework -name "dotnet.native.*.js" | head -1)
           DOTNET_NATIVE_FILENAME=$(basename "$DOTNET_NATIVE_FILE")
           
+          DOTNET_FILE=$(find release/wwwroot/_framework -name "dotnet.js" | head -1)
+          DOTNET_FILENAME=$(basename "$DOTNET_FILE")
+          
           echo "Found files:"
           echo "Blazor: $BLAZOR_FILENAME"
           echo "Runtime: $DOTNET_RUNTIME_FILENAME"
           echo "Native: $DOTNET_NATIVE_FILENAME"
+          echo "Dotnet: $DOTNET_FILENAME"
           
           # Update the script reference in index.html
           sed -i "s|_framework/blazor.webassembly.js|_framework/$BLAZOR_FILENAME|g" release/wwwroot/index.html
@@ -54,6 +58,7 @@ jobs:
           sed -i "s|_framework/blazor.webassembly.js|_framework/$BLAZOR_FILENAME|g" release/wwwroot/index.html
           sed -i "s|_framework/dotnet.runtime.js|_framework/$DOTNET_RUNTIME_FILENAME|g" release/wwwroot/index.html
           sed -i "s|_framework/dotnet.native.js|_framework/$DOTNET_NATIVE_FILENAME|g" release/wwwroot/index.html
+          sed -i "s|_framework/dotnet.js|_framework/$DOTNET_FILENAME|g" release/wwwroot/index.html
           
           # Verify the changes
           echo "Updated index.html:"
