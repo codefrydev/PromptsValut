@@ -108,6 +108,126 @@
         </div>
     </div>
 }
+else if (isTablet)
+{
+    @* Tablet Layout *@
+    <div class="min-h-screen bg-background">
+        <!-- Tablet Header -->
+        <div class="tablet-header fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+            <div class="px-6 py-4 flex items-center justify-between">
+                <!-- Tablet Menu Button -->
+                <button @onclick="ToggleSidebar" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0 focus-ring" aria-label="Open menu">
+                    @((MarkupString)SvgIcons.Menu)
+                </button>
+                
+                <!-- Tablet Logo -->
+                <div class="flex items-center gap-3 group cursor-pointer" @onclick="NavigateToHome">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-violet-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                        <img src="favicon-32x32.png" alt="PromptVault" class="w-5 h-5" />
+                    </div>
+                    <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors duration-300">
+                        PromptVault
+                    </h1>
+                </div>
+                
+                <!-- Tablet Search Bar -->
+                <div class="flex-1 mx-6 max-w-lg">
+                    <SearchBar OnSearchChanged="OnSearchChanged" />
+                </div>
+                
+                <!-- Tablet Actions -->
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <button @onclick="ToggleTheme" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 focus-ring" title="Toggle theme" aria-label="Toggle theme">
+                        @if (PromptService.State.Theme == "light")
+                        {
+                            @((MarkupString)SvgIcons.Moon)
+                        }
+                        else
+                        {
+                            @((MarkupString)SvgIcons.Sun)
+                        }
+                    </button>
+                    <button @onclick="ShowHelp" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 focus-ring" title="Help" aria-label="Help">
+                        @((MarkupString)SvgIcons.HelpCircle)
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tablet Sidebar -->
+        <div class="tablet-sidebar @(sidebarOpen ? "open" : "")" id="tablet-sidebar">
+            <div class="p-6 h-full overflow-y-auto">
+                <!-- Tablet Sidebar Header -->
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center gap-3" @onclick="NavigateToHome">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
+                            <img src="favicon-32x32.png" alt="PromptVault" class="w-6 h-6" />
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Menu</h2>
+                    </div>
+                    <button @onclick="ToggleSidebar" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
+                        @((MarkupString)SvgIcons.X)
+                    </button>
+                </div>
+                
+                <!-- Tablet Category Filter -->
+                <div class="mb-8">
+                    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Categories</h3>
+                    <CategoryFilter OnCategoryChanged="OnCategoryChanged" />
+                </div>
+                
+                <!-- Tablet Quick Stats -->
+                <div class="p-5 bg-gray-50 dark:bg-gray-800 rounded-lg mb-6">
+                    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Quick Stats</h3>
+                    <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                        <div class="flex justify-between">
+                            <span>Total Prompts</span>
+                            <span class="font-medium text-gray-900 dark:text-gray-100">@PromptService.Prompts.Count</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Favorites</span>
+                            <span class="font-medium text-gray-900 dark:text-gray-100">@PromptService.State.Favorites.Count</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Categories</span>
+                            <span class="font-medium text-gray-900 dark:text-gray-100">@PromptService.Categories.Count</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tablet Generator Button -->
+                <div class="mb-6">
+                    <button @onclick="NavigateToGenerator" class="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                        @((MarkupString)SvgIcons.GetIcon("wand", "h-5 w-5"))
+                        <span class="font-medium">Prompt Generator</span>
+                    </button>
+                </div>
+                
+                <!-- Tablet Quick Actions -->
+                <div class="space-y-3">
+                    <button @onclick="ShowAllPrompts" class="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2">
+                        @((MarkupString)SvgIcons.Grid3x3)
+                        <span class="font-medium">All Prompts</span>
+                    </button>
+                    <button @onclick="ShowFavorites" class="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2">
+                        @((MarkupString)SvgIcons.Heart)
+                        <span class="font-medium">Favorites</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tablet Sidebar Backdrop -->
+        <div class="tablet-sidebar-backdrop @(sidebarOpen ? "open" : "")" @onclick="ToggleSidebar"></div>
+        
+        <!-- Tablet Main Content -->
+        <main class="pt-20 pb-6 min-h-screen">
+            <div class="px-6 py-6">
+                @Body
+            </div>
+        </main>
+    </div>
+}
 else
 {
     @* Desktop Layout *@

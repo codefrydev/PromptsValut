@@ -16,6 +16,7 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
     private Header? header;
     private CategoryFilter? categoryFilter;
     private bool isMobile = false;
+    private bool isTablet = false;
     private bool isInitialized = false;
     private bool sidebarOpen = false;
 
@@ -50,9 +51,13 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
         {
             var width = await JSRuntime.InvokeAsync<int>("getWindowWidth");
             var wasMobile = isMobile;
-            isMobile = width < 768; // Mobile breakpoint at 768px
+            var wasTablet = isTablet;
             
-            if (wasMobile != isMobile || !isInitialized)
+            // Define breakpoints: mobile < 768px, tablet 768px-1024px, desktop > 1024px
+            isMobile = width < 768;
+            isTablet = width >= 768 && width < 1024;
+            
+            if (wasMobile != isMobile || wasTablet != isTablet || !isInitialized)
             {
                 isInitialized = true;
                 StateHasChanged();
@@ -62,6 +67,7 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
         {
             // Fallback to desktop if JS interop fails
             isMobile = false;
+            isTablet = false;
             if (!isInitialized)
             {
                 isInitialized = true;
@@ -104,8 +110,8 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
     private async Task OnCategoryChanged(string category)
     {
         await PromptService.SetSelectedCategoryAsync(category);
-        // Close sidebar after category selection on mobile
-        if (isMobile)
+        // Close sidebar after category selection on mobile and tablet
+        if (isMobile || isTablet)
         {
             sidebarOpen = false;
             StateHasChanged();
@@ -114,9 +120,9 @@ public partial class ResponsiveLayout : LayoutComponentBase, IDisposable
 
     private async Task ShowFavorites()
     {
-        if (isMobile)
+        if (isMobile || isTablet)
         {
-            // Mobile: Filter to show only favorites
+            // Mobile/Tablet: Filter to show only favorites
             await PromptService.SetShowFavoritesOnlyAsync(true);
             sidebarOpen = false;
             StateHasChanged();
