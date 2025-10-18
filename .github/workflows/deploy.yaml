@@ -15,29 +15,25 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 9.x
 
-      - name: Restore dependencies
-        run: dotnet restore PromptsValut/PromptsValut.csproj
+      - name: Publish Blazor WebAssembly project
+        run: dotnet publish PromptsValut/PromptsValut.csproj -c Release -o release --nologo
 
-      - name: Build and publish Blazor WebAssembly project
+      - name: Change base-tag in index.html from / to PromptsValut
+        run: sed -i 's|<base href="/" />|<base href="/PromptsValut/" />|g' release/wwwroot/index.html
+
+      - name: Update Blazor script references to use hashed files
         run: |
-          dotnet publish PromptsValut/PromptsValut.csproj -c Release -o release --nologo -p:BlazorWebAssemblyStandalone=true -p:BlazorEnableCompression=false
-
-      - name: Update base href and script references for GitHub Pages
-        run: |
-          # Update base href to match repository name
-          sed -i 's|<base href="/" />|<base href="/PromptsValut/" />|g' release/wwwroot/index.html
+          # Find the actual blazor.webassembly file with hash
+          BLAZOR_FILE=$(find release/wwwroot/_framework -name "blazor.webassembly.*.js" | head -1)
+          BLAZOR_FILENAME=$(basename "$BLAZOR_FILE")
           
-          # Update all _framework references to include the base path
-          cd release/wwwroot
-          sed -i 's|href="_framework/|href="/PromptsValut/_framework/|g' index.html
-          sed -i 's|src="_framework/|src="/PromptsValut/_framework/|g' index.html
-          sed -i 's|"./_framework/|"./PromptsValut/_framework/|g' index.html
+          # Update the script reference in index.html
+          sed -i "s|_framework/blazor.webassembly.js|_framework/$BLAZOR_FILENAME|g" release/wwwroot/index.html
           
-          echo "Updated index.html:"
-          grep -n "_framework/" index.html
-
+          # Also update any preload links
+          sed -i "s|_framework/blazor.webassembly.js|_framework/$BLAZOR_FILENAME|g" release/wwwroot/index.html
       - name: Add 404.html (for GitHub Pages SPA fallback)
         run: cp release/wwwroot/index.html release/wwwroot/404.html
 
