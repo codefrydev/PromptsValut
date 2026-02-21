@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "PromptsValut",
   "resources": {
-    "hash": "sha256-ffajD0TxHnHgWKvucymDTTvOSV8foCKHkLifOYHfpfw=",
+    "hash": "sha256-Qofh9PkjxTbVJTHikC7UP+hJn/IQH/aSQpWul7DqoTE=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.6q2yuesuav.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.qj3jhv12ah.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -29,7 +29,7 @@
       "System.IO.Pipelines.9l6zuro8hs.wasm": "System.IO.Pipelines.wasm",
       "System.Linq.Expressions.80n31uzalm.wasm": "System.Linq.Expressions.wasm",
       "System.Linq.Queryable.apu8p33w2l.wasm": "System.Linq.Queryable.wasm",
-      "System.Linq.0mxj62bjzy.wasm": "System.Linq.wasm",
+      "System.Linq.10yorcb1zx.wasm": "System.Linq.wasm",
       "System.Memory.u666a9pq9w.wasm": "System.Memory.wasm",
       "System.Net.Http.shzf95736h.wasm": "System.Net.Http.wasm",
       "System.Net.Primitives.dxz2odvgk7.wasm": "System.Net.Primitives.wasm",
@@ -41,7 +41,7 @@
       "System.Text.RegularExpressions.bxnkzsb2ox.wasm": "System.Text.RegularExpressions.wasm",
       "System.Threading.oht5tgn73v.wasm": "System.Threading.wasm",
       "System.Private.CoreLib.o7luovf92w.wasm": "System.Private.CoreLib.wasm",
-      "PromptsValut.7ab7mvinmz.wasm": "PromptsValut.wasm",
+      "PromptsValut.6cqsu8kk4v.wasm": "PromptsValut.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.xidrk0eo52.js": "dotnet.native.js",
       "dotnet.native.y68cfu4kuf.wasm": "dotnet.native.wasm",
@@ -95,7 +95,7 @@
       "System.IO.Pipelines.9l6zuro8hs.wasm": "sha256-40nK9oVGjbO8/PkjjTiFKoD9n4WoCv5ni+BB98Cmbgs=",
       "System.Linq.Expressions.80n31uzalm.wasm": "sha256-OCC23BSlyIlD/2NzBY3lbbsZ24sYGYbUWhwO9PzemIs=",
       "System.Linq.Queryable.apu8p33w2l.wasm": "sha256-kt3dyzn+Pm25eL9djZofNDpVkTuSWa+4Dqm373F9e4U=",
-      "System.Linq.0mxj62bjzy.wasm": "sha256-6K6Mbiwev5s3sCeyl2bwbqA5b7DxlnTuhY7ljm8G6/E=",
+      "System.Linq.10yorcb1zx.wasm": "sha256-IV2QIcw6hfEutFEseqe/wY1/YdL9EbpZ1z5/FXQp3KY=",
       "System.Memory.u666a9pq9w.wasm": "sha256-1oJ45mdWwENMgIigjVj5KZNVyLpY7o0k0BudsbPCEpU=",
       "System.Net.Http.shzf95736h.wasm": "sha256-kJFKDqkrs3mz5dBcmLGs5BUDgqs2BY3Ymmf0sJMUZ1g=",
       "System.Net.Primitives.dxz2odvgk7.wasm": "sha256-n4FVZarFxVfhwZ69nj6d+JvxpCVU6UGTmDzQWq9YQ90=",
@@ -105,7 +105,7 @@
       "System.Text.Json.wa14g57ngy.wasm": "sha256-aKzE38NY4cykVky4fEjM53pwWSHktyZXBeHNQurtLMw=",
       "System.Text.RegularExpressions.bxnkzsb2ox.wasm": "sha256-H9kHp4GgPF13m9MfUbrmM06UBeE/t7ijJqFNSib7+tY=",
       "System.Threading.oht5tgn73v.wasm": "sha256-jNGCEwh41KtTnTEFzwaOlWKBMaQ1Hm1ttfAjBU0xp1I=",
-      "PromptsValut.7ab7mvinmz.wasm": "sha256-ITl0HAuILrumpEzP26Ta6WUOThqxgMyTGFzTXPdJRTs="
+      "PromptsValut.6cqsu8kk4v.wasm": "sha256-VrJ0Sqk+CN57dOKCsLTtfZqYosbhqglRFD16fG07sII="
     }
   },
   "cacheBootResources": true,
