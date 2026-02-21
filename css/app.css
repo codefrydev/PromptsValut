@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 :root {
     --background: 0 0% 100%;
@@ -7,8 +7,8 @@
     --card-foreground: 224 71.4% 4%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 13% 22%;
+    --primary-foreground: 0 0% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 12%;
     --muted: 210 40% 96.1%;
@@ -19,19 +19,14 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 220 13% 22%;
     --radius: 0.75rem;
     --sidebar: 240 5% 96%;
     --sidebar-foreground: 240 5% 20%;
-    --sidebar-primary: 221.2 83.2% 53.3%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 220 13% 22%;
+    --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 210 40% 92%;
     --sidebar-border: 214.3 31.8% 91.4%;
-    
-    /* Gradient definitions */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
-    --gradient-card: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / 0.95));
     
     /* Shadow definitions */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -48,8 +43,8 @@
     --card-foreground: 0 0% 90%;
     --popover: 0 0% 10%;
     --popover-foreground: 0 0% 90%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 8%;
+    --primary: 0 0% 72%;
+    --primary-foreground: 0 0% 9%;
     --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 80%;
     --muted: 0 0% 12%;
@@ -60,18 +55,13 @@
     --destructive-foreground: 0 0% 90%;
     --border: 0 0% 18%;
     --input: 0 0% 12%;
-    --ring: 217 91% 60%;
+    --ring: 0 0% 72%;
     --sidebar: 0 0% 6%;
     --sidebar-foreground: 0 0% 80%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 8%;
+    --sidebar-primary: 0 0% 72%;
+    --sidebar-primary-foreground: 0 0% 9%;
     --sidebar-accent: 0 0% 8%;
     --sidebar-border: 0 0% 15%;
-    
-    /* Dark theme gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
-    --gradient-card: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / 0.8));
     
     /* Dark theme shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
@@ -87,12 +77,8 @@
 
 body {
     background: hsl(var(--background));
-    background-image: 
-        radial-gradient(circle at 20% 80%, hsl(var(--primary) / 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, hsl(var(--primary) / 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, hsl(var(--primary) / 0.03) 0%, transparent 50%);
     color: hsl(var(--foreground));
-    font-family: 'Inter', sans-serif;
+    font-family: 'Source Sans 3', sans-serif;
     font-weight: 500;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -345,53 +331,89 @@ input, textarea, select {
     top: 0.5rem;
 }
 
+/* Skeleton loading - solid muted, no gradients */
+.skeleton-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    min-height: 200px;
+}
+
+.skeleton-line {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+    height: 0.875rem;
+}
+
+.skeleton-line.long {
+    width: 85%;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-line.medium {
+    width: 60%;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-line.short {
+    width: 40%;
+}
+
+.skeleton-circle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: hsl(var(--muted));
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.skeleton-card .skeleton-line,
+.skeleton-card .skeleton-circle {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
 /* Enhanced Utility Classes */
 .hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 0.2s ease;
 }
 
 .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
 }
 
 /* Enhanced Button Styles */
 .btn-primary {
-    background: var(--gradient-primary);
+    background: hsl(var(--primary));
     color: hsl(var(--primary-foreground));
     border: none;
     border-radius: var(--radius);
     padding: 0.75rem 1.5rem;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
     box-shadow: var(--shadow-sm);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-.btn-primary:hover::before {
-    left: 100%;
+    background: hsl(var(--primary) / 0.9);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-primary:active {
-    transform: translateY(0);
     box-shadow: var(--shadow-sm);
+}
+
+/* Primary-style buttons: force icon and text to foreground for contrast */
+button.bg-primary {
+    color: hsl(var(--primary-foreground));
+}
+
+button.bg-primary svg {
+    color: inherit;
 }
 
 .btn-secondary {
@@ -407,7 +429,6 @@ input, textarea, select {
 
 .btn-secondary:hover {
     background: hsl(var(--accent));
-    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
@@ -468,7 +489,7 @@ input, textarea, select {
 }
 
 .modal-content {
-    background: var(--gradient-card);
+    background: hsl(var(--card));
     border-radius: calc(var(--radius) * 1.5);
     box-shadow: var(--shadow-2xl);
     max-width: 90vw;
@@ -525,93 +546,49 @@ input, textarea, select {
 
 /* Enhanced Card Styles */
 .prompt-card {
-    background: var(--gradient-card);
+    background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
     cursor: pointer;
     position: relative;
     overflow: hidden;
 }
 
-.prompt-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--gradient-primary);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-}
-
 .prompt-card:hover {
-    transform: translateY(-0.5rem) scale(1.02);
-    box-shadow: var(--shadow-xl);
-    border-color: hsl(var(--primary) / 0.3);
-}
-
-.prompt-card:hover::before {
-    transform: scaleX(1);
+    box-shadow: var(--shadow-md);
+    border-color: hsl(var(--border));
 }
 
 .prompt-card:active {
-    transform: translateY(-0.25rem) scale(1.01);
-    transition: transform 0.1s ease;
+    box-shadow: var(--shadow-sm);
 }
 
-/* Enhanced Prompt Card with Gradient Background */
+/* Enhanced Prompt Card - solid enterprise style */
 .prompt-card-enhanced {
-    background: linear-gradient(135deg, var(--gradient-primary));
-    border: none;
-    border-radius: 1.25rem;
-    box-shadow: var(--shadow-lg);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     padding: 1.25rem;
-    min-height: 320px;
+    min-height: 260px;
     max-width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.prompt-card-enhanced::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    pointer-events: none;
-}
-
 .prompt-card-enhanced:hover {
-    transform: translateY(-0.75rem) scale(1.03);
-    box-shadow: var(--shadow-2xl);
+    box-shadow: var(--shadow-md);
+    border-color: hsl(var(--border));
 }
 
 .prompt-card-enhanced:active {
-    transform: translateY(-0.5rem) scale(1.02);
-    transition: transform 0.1s ease;
-}
-
-/* Enhanced card content styling */
-.prompt-card-enhanced .bg-white\/95 {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dark .prompt-card-enhanced .bg-white\/95 {
-    background: rgba(0, 0, 0, 0.8);
-    color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Mobile Layout Styles */
